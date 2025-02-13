@@ -1,0 +1,123 @@
+# Python bytecode files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+env/
+venv/
+ENV/
+.venv/
+.virtualenv/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# Config files and environment variables
+*.env
+*.env.*
+.envrc
+.env.local
+.env.development
+.env.test
+.env.production
+
+# Python egg files
+*.egg
+*.egg-info/
+dist/
+build/
+eggs/
+parts/
+var/
+wheels/
+share/python-wheels/
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+
+# PyInstaller
+#  Usually these files are written by a python script from a template
+#  before PyInstaller builds the binary.
+*.manifest
+*.spec
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# IDE files
+.vscode/
+*.sublime-project
+*.sublime-workspace
+.idea/
+
+# PyCharm
+# JetBrains specific template
+.idea/
+.idea_modules/
+# Ignore the project directory
+.project
+.pydevproject
+# Caches
+# Safe to delete, but also re-created after re-opening the IDE
+.idea/.idea_modules.xml
+.idea/misc.xml
+.idea/modules.xml
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/dictionaries
+.idea/shelf
+.idea/vcs.xml
+# File-based project format
+.idea/modules
+.idea/artifacts
+.idea/compiler.xml
+.idea/libraries
+.idea/gradle.xml
+.idea/scala_compiler.xml
+.idea/jarRepositories.xml
+.idea/webResources.xml
+.idea/jsLibraryMappings.xml
+.idea/encodings.xml
+.idea/php.xml
+.idea/jarDependencies.xml
+.idea/tasks.xml
+.idea/watcherTasks.xml
+.idea/options.xml
+.idea/misc.xml
+.idea/xml_file_set.xml
+.idea/dataSources.xml
+.idea/dataSources.local.xml
+.idea/dataSources.remote.xml
+.idea/replstate.xml
+.idea/dictionaries
+.idea/scopes/
+.idea/httpRequests/
+.idea/storedSchemas/
+.idea/markdown_navigator.xml
+.idea/vcs.xml
+.idea/dynamic.xml
+# OS-specific files
+.DS_Store
+Thumbs.db
+.vs/
+bin/
+obj/
