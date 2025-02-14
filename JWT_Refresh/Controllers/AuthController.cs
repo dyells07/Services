@@ -41,7 +41,7 @@ namespace JWT_Refresh.Controllers
             _userContext.SaveChanges();
             return Ok(new AuthenticatedResponse
             {
-                Token = accessToken,
+                AccessToken = accessToken,
                 RefreshToken = refreshToken
             });
         }
