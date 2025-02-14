@@ -10,7 +10,7 @@ namespace JWT_Refresh.Services
     {
         public string GenerateAccessToken(IEnumerable<Claim> claims)
         {
-            var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"));
+            var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("b3O4hT3pC6qM9vXeL1wY4gV2J7dN0sRqKZxYlQvB+T0="));
             var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
 
             var tokeOptions = new JwtSecurityToken(
@@ -42,7 +42,7 @@ namespace JWT_Refresh.Services
                 ValidateAudience = false, //you might want to validate the audience and issuer depending on your use case
                 ValidateIssuer = false,
                 ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345")),
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("b3O4hT3pC6qM9vXeL1wY4gV2J7dN0sRqKZxYlQvB+T0=")),
                 ValidateLifetime = false //here we are saying that we don't care about the token's expiration date
             };
 
