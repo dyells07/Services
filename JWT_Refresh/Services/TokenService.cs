@@ -39,11 +39,11 @@ namespace JWT_Refresh.Services
         {
             var tokenValidationParameters = new TokenValidationParameters
             {
-                ValidateAudience = false, //you might want to validate the audience and issuer depending on your use case
+                ValidateAudience = false,
                 ValidateIssuer = false,
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("b3O4hT3pC6qM9vXeL1wY4gV2J7dN0sRqKZxYlQvB+T0=")),
-                ValidateLifetime = false //here we are saying that we don't care about the token's expiration date
+                ValidateLifetime = false
             };
 
             var tokenHandler = new JwtSecurityTokenHandler();

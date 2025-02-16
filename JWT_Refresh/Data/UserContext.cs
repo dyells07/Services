@@ -17,9 +17,9 @@ namespace JWT_Refresh.Data
         {
             modelBuilder.Entity<LoginModel>().HasData(new LoginModel
             {
-                Id = 1,
-                UserName = "johndoe",
-                Password = "def@123"
+                Id = 2,
+                UserName = "bipin",
+                Password = "bipin"
             });
         }
     }
