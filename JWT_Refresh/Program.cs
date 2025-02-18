@@ -13,6 +13,7 @@ builder.Services.AddDbContext<UserContext>(opts =>
 
 builder.Services.AddTransient<ITokenService, TokenService>();
 builder.Services.AddSignalR();
+builder.Services.AddAuthentication();
 
 var app = builder.Build();
 
@@ -23,15 +24,12 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseRouting();
 
+app.UseAuthentication(); 
 app.UseAuthorization();
 
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapControllers();
-    endpoints.MapHub<ChatHub>("/chatHub");
-});
+app.MapControllers();  
+app.MapHub<ChatHub>("/chatHub");
 
 app.Run();
