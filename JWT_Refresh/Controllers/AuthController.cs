@@ -30,10 +30,10 @@ namespace JWT_Refresh.Controllers
             if (user is null)
                 return Unauthorized();
             var claims = new List<Claim>
-        {
-            new Claim(ClaimTypes.Name, loginModel.UserName),
-            new Claim(ClaimTypes.Role, "Manager")
-        };
+            {
+              new Claim(ClaimTypes.Name, loginModel.UserName),
+              new Claim(ClaimTypes.Role, "Manager")
+            };
             var accessToken = _tokenService.GenerateAccessToken(claims);
             var refreshToken = _tokenService.GenerateRefreshToken();
             user.RefreshToken = refreshToken;

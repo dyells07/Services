@@ -2,6 +2,9 @@
 using JWT_Refresh.Hubs;
 using JWT_Refresh.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,7 +16,24 @@ builder.Services.AddDbContext<UserContext>(opts =>
 
 builder.Services.AddTransient<ITokenService, TokenService>();
 builder.Services.AddSignalR();
-builder.Services.AddAuthentication();
+
+// Configure JWT Authentication
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:SecretKey"])), // Add SecretKey in your appsettings.json
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],  // Add Issuer in your appsettings.json
+            ValidAudience = builder.Configuration["Jwt:Audience"] // Add Audience in your appsettings.json
+        };
+    });
+
+builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
@@ -26,10 +46,10 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseRouting();
 
-app.UseAuthentication(); 
+app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapControllers();  
+app.MapControllers();
 app.MapHub<ChatHub>("/chatHub");
 
 app.Run();
