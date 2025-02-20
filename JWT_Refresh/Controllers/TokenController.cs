@@ -22,35 +22,61 @@ namespace JWT_Refresh.Controllers
         [Route("refresh")]
         public IActionResult Refresh(TokenApiModel tokenApiModel)
         {
-            if (tokenApiModel is null)
+            if (tokenApiModel == null)
                 return BadRequest("Invalid client request");
-            string accessToken = tokenApiModel.AccessToken;
-            string refreshToken = tokenApiModel.RefreshToken;
-            var principal = _tokenService.GetPrincipalFromExpiredToken(accessToken);
-            var username = principal.Identity.Name; 
-            var user = _userContext.LoginModels.SingleOrDefault(u => u.UserName == username);
-            if (user is null || user.RefreshToken != refreshToken || user.RefreshTokenExpiryTime <= DateTime.Now)
-                return BadRequest("Invalid client request");
+
+            var principal = _tokenService.GetPrincipalFromExpiredToken(tokenApiModel.AccessToken);
+            if (principal?.Identity?.Name == null)
+                return BadRequest("Invalid token");
+
+            var username = principal.Identity.Name;
+            var user = _userContext.LoginModels.Find(username);
+
+            if (user == null || user.RefreshToken != tokenApiModel.RefreshToken || user.RefreshTokenExpiryTime <= DateTime.UtcNow)
+                return Unauthorized("Invalid or expired refresh token");
+
+            // Generate new tokens
             var newAccessToken = _tokenService.GenerateAccessToken(principal.Claims);
             var newRefreshToken = _tokenService.GenerateRefreshToken();
-            user.RefreshToken = newRefreshToken;
-            _userContext.SaveChanges();
-            return Ok(new AuthenticatedResponse()
+
+            // Update refresh token securely
+            using (var transaction = _userContext.Database.BeginTransaction())
+            {
+                user.RefreshToken = newRefreshToken;
+                _userContext.SaveChanges();
+                transaction.Commit();
+            }
+
+            return Ok(new AuthenticatedResponse
             {
                 AccessToken = newAccessToken,
-                RefreshToken = newRefreshToken
+                RefreshToken = newRefreshToken,
+                //ExpiresIn = _tokenService.GetTokenExpiry(newAccessToken) // Include expiry for frontend tracking
             });
         }
+
         [HttpPost, Authorize]
         [Route("revoke")]
         public IActionResult Revoke()
         {
-            var username = User.Identity.Name;
-            var user = _userContext.LoginModels.SingleOrDefault(u => u.UserName == username);
-            if (user == null) return BadRequest();
-            user.RefreshToken = null;
-            _userContext.SaveChanges();
+            var username = User.Identity?.Name;
+            if (string.IsNullOrEmpty(username))
+                return Unauthorized("User not found");
+
+            var user = _userContext.LoginModels.Find(username);
+            if (user == null)
+                return BadRequest("Invalid request");
+
+            // Securely revoke token
+            using (var transaction = _userContext.Database.BeginTransaction())
+            {
+                user.RefreshToken = null;
+                _userContext.SaveChanges();
+                transaction.Commit();
+            }
+
             return NoContent();
         }
+
     }
 }
