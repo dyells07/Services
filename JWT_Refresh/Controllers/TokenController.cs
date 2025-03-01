@@ -51,7 +51,7 @@ namespace JWT_Refresh.Controllers
             {
                 AccessToken = newAccessToken,
                 RefreshToken = newRefreshToken,
-                //ExpiresIn = _tokenService.GetTokenExpiry(newAccessToken) // Include expiry for frontend tracking
+               
             });
         }
 
@@ -67,7 +67,7 @@ namespace JWT_Refresh.Controllers
             if (user == null)
                 return BadRequest("Invalid request");
 
-            // Securely revoke token
+           
             using (var transaction = _userContext.Database.BeginTransaction())
             {
                 user.RefreshToken = null;
