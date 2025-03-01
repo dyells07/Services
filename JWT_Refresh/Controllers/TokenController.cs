@@ -35,7 +35,7 @@ namespace JWT_Refresh.Controllers
             if (user == null || user.RefreshToken != tokenApiModel.RefreshToken || user.RefreshTokenExpiryTime <= DateTime.UtcNow)
                 return Unauthorized("Invalid or expired refresh token");
 
-            // Generate new tokens
+            
             var newAccessToken = _tokenService.GenerateAccessToken(principal.Claims);
             var newRefreshToken = _tokenService.GenerateRefreshToken();
 
