@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using JWT_Refresh.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -42,7 +43,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseMiddleware<HawkMiddleware>();
 app.UseHttpsRedirection();
 app.UseRouting();
 
