@@ -40,9 +40,8 @@ namespace JWT_Refresh.Middlewares
                 var uri = request.Path.ToUriComponent();
                 var fullUrl = $"{request.Scheme}://{host}{uri}";
 
-                // Authenticate the request using Hawk (without await)
                 IPrincipal principal = Hawk.Authenticate(
-                    method,                        // HTTP Method (GET, POST, etc.)
+                    method,                        
                     fullUrl,                       // Full request URL
                     request.Headers["Authorization"], // Hawk authorization header
                     new Uri(fullUrl),              // Request URI
